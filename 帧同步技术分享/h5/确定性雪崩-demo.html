@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>确定性雪崩 · Sinai 台球去同步演示</title>
+<style>
+  :root{
+    --bg:#0a0e17; --panel:#121826; --line:#1e2940;
+    --ink:#e6ecf5; --dim:#7d8aa3; --blue:#3ea6ff; --orange:#ff9d3e;
+    --green:#28d17c; --red:#ff4d5e; --grid:#16203a;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html,body{height:100%}
+  body{
+    background:radial-gradient(1200px 700px at 50% -10%, #14203a 0%, var(--bg) 60%);
+    color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,system-ui,sans-serif;
+    display:flex; flex-direction:column; align-items:center; padding:22px 16px 40px;
+  }
+  h1{font-size:21px; font-weight:700; letter-spacing:.5px}
+  h1 .sub{font-size:13px; color:var(--dim); font-weight:400; margin-left:10px}
+  .wrap{width:100%; max-width:1080px}
+  .stage{display:grid; grid-template-columns:1fr 360px; gap:16px; margin-top:16px}
+  @media (max-width:880px){ .stage{grid-template-columns:1fr} }
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px}
+  .arena-wrap{position:relative}
+  canvas{display:block; width:100%; border-radius:10px; background:#070b13}
+  .legend{display:flex; gap:18px; align-items:center; margin-top:10px; font-size:13px; color:var(--dim)}
+  .dot{display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:-1px}
+  .dot.b{background:var(--blue); box-shadow:0 0 8px var(--blue)}
+  .dot.o{background:var(--orange); box-shadow:0 0 8px var(--orange)}
+
+  .status{font-size:15px; font-weight:700; padding:12px 14px; border-radius:10px; text-align:center;
+    letter-spacing:.5px; transition:all .15s}
+  .status.sync{background:rgba(40,209,124,.12); color:var(--green); border:1px solid rgba(40,209,124,.4)}
+  .status.desync{background:rgba(255,77,94,.14); color:var(--red); border:1px solid rgba(255,77,94,.5);
+    animation:pulse .6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 rgba(255,77,94,0)}50%{box-shadow:0 0 18px rgba(255,77,94,.5)}}
+
+  .rows{margin-top:12px; font-size:13px}
+  .row{display:flex; justify-content:space-between; padding:7px 2px; border-bottom:1px dashed var(--line)}
+  .row .k{color:var(--dim)}
+  .row .v{font-variant-numeric:tabular-nums; font-feature-settings:"tnum"}
+  .mono{font-family:"SF Mono",Menlo,Consolas,monospace}
+  .chkA{color:var(--blue)} .chkO{color:var(--orange)}
+  .mismatch{color:var(--red)!important; font-weight:700}
+
+  .controls{margin-top:14px; display:flex; flex-direction:column; gap:12px}
+  .eps-group{display:flex; gap:8px}
+  .eps-group button{flex:1}
+  button{cursor:pointer; background:#1b2540; color:var(--ink); border:1px solid var(--line);
+    padding:9px 12px; border-radius:9px; font-size:13px; transition:.12s}
+  button:hover{border-color:var(--blue)}
+  button.active{background:var(--blue); color:#04111f; border-color:var(--blue); font-weight:700}
+  button.primary{background:var(--green); color:#03130b; border-color:var(--green); font-weight:700}
+  .btnrow{display:flex; gap:8px}
+  .btnrow button{flex:1}
+  label.fld{font-size:12px; color:var(--dim); display:flex; justify-content:space-between; align-items:center}
+  input[type=range]{width:100%; accent-color:var(--blue)}
+
+  .explain{margin-top:16px; font-size:13px; line-height:1.7; color:#b9c4d8}
+  .explain b{color:var(--ink)}
+  .explain .tag{display:inline-block; background:#1b2540; border:1px solid var(--line);
+    border-radius:6px; padding:1px 7px; font-size:12px; margin:0 2px}
+  .divchart-title{font-size:12px; color:var(--dim); margin-bottom:6px; display:flex; justify-content:space-between}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>确定性雪崩 <span class="sub">同一份代码 · 同一个引擎 · 仅初始位置差 ε → 校验和雪崩</span></h1>
+
+  <div class="stage">
+    <!-- 左：竞技场 -->
+    <div class="card arena-wrap">
+      <canvas id="arena" width="640" height="640"></canvas>
+      <div class="legend">
+        <span><i class="dot b"></i>世界 A（基准 ε=0）</span>
+        <span><i class="dot o"></i>世界 B（初始 +ε）</span>
+        <span style="margin-left:auto" id="hint">两球此刻完全重合</span>
+      </div>
+    </div>
+
+    <!-- 右：仪表盘 -->
+    <div class="card">
+      <div id="status" class="status sync">● 校验和一致 · IN SYNC</div>
+
+      <div class="rows">
+        <div class="row"><span class="k">注入误差 ε</span><span class="v mono" id="epsVal">0.0001 px</span></div>
+        <div class="row"><span class="k">帧号 frame</span><span class="v mono" id="frame">0</span></div>
+        <div class="row"><span class="k">世界 A 校验和</span><span class="v mono chkA" id="cksA">00000000</span></div>
+        <div class="row"><span class="k">世界 B 校验和</span><span class="v mono chkO" id="cksB">00000000</span></div>
+        <div class="row"><span class="k">两球间距 |ΔX|</span><span class="v mono" id="dist">0.0000 px</span></div>
+        <div class="row"><span class="k">首次去同步</span><span class="v mono" id="firstDesync">—</span></div>
+      </div>
+
+      <div style="margin-top:14px">
+        <div class="divchart-title"><span>发散距离 |ΔX|（对数纵轴）</span><span id="lyap">斜率≈λ</span></div>
+        <canvas id="divchart" width="332" height="120"></canvas>
+        <div style="font-size:11px;color:var(--dim);margin-top:4px">指数发散在 log 轴上 = 一条直线 → 李雅普诺夫指数为正</div>
+      </div>
+
+      <div class="controls">
+        <div>
+          <label class="fld"><span>注入误差 ε（注入到世界 B 的初始 x）</span></label>
+          <div class="eps-group" id="epsGroup">
+            <button data-eps="0">0（绝对确定）</button>
+            <button data-eps="0.0001" class="active">0.0001</button>
+            <button data-eps="0.001">0.001</button>
+          </div>
+        </div>
+        <div>
+          <label class="fld"><span>速度（帧/秒推进）</span><span id="spdVal" class="mono">4×</span></label>
+          <input type="range" id="speed" min="1" max="12" value="4">
+        </div>
+        <div class="btnrow">
+          <button id="play" class="primary">▶ 播放</button>
+          <button id="stepBtn">⏭ 单帧</button>
+          <button id="reset">⟲ 重置</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="explain card">
+    <b>怎么看这个演示</b><br>
+    两个世界跑的是<b>逐字节相同的代码</b>，在<b>同一个 JS 引擎</b>里执行——唯一区别是世界 B 的初始位置被加了一个
+    <span class="tag mono">ε</span>。
+    <br>① 选 <span class="tag">ε=0</span>：两球永远重合，两个校验和<b>逐帧完全一致、永不报警</b>——这证明「同代码 + 同输入 = 同结果」。
+    <br>② 选 <span class="tag">ε=0.0001</span>：开局几秒两球<b>肉眼完全重叠</b>，校验和一致；但中央圆盘是混沌系统（Sinai 台球），每次擦过圆盘都把误差<b>指数放大</b>，某一帧突然劈叉 → 校验和对不上 → <b style="color:var(--red)">DESYNC</b>。
+    <br>③ 现实里那个 ε 不用你手动注入：<b>不同 CPU / 编译器 / Debug-Release 改变浮点运算顺序</b>，自己就会塞进来一个 0.0001。这就是帧同步必须死磕确定性的原因。
+    <br><span style="color:var(--dim)">注：本动画的分叉是人为注入 ε、在单一引擎里跑出来的，只负责让你秒懂机制；机制为真的证据见《大纲》附录三柱（混沌理论 + IEEE 754、帝国时代 checksum 原文、我们自己的线上去同步日志）。</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  // ---------- 物理参数（像素空间，640x640）----------
+  var W = 640, H = 640;
+  var WALL = 28;                 // 边框内缩
+  var L0 = WALL, L1 = W - WALL;  // 方桌边界
+  var CX = W/2, CY = H/2;        // 中央圆盘
+  var R  = 120;                  // 圆盘半径
+  var BR = 7;                    // 小球半径
+  var SPEED = 165;               // 像素/秒
+  var DT = 1/120;                // 固定步长（与真实帧率解耦 → 确定性）
+  var SUB = 6;                   // 每帧子步，防穿透
+
+  // 固定初速度方向（无理数倾角，保证轨迹遍历、足够混沌）
+  var ANG = 0.4779;
+  var VX0 = Math.cos(ANG)*SPEED, VY0 = Math.sin(ANG)*SPEED;
+  var PX0 = L0 + 70, PY0 = L0 + 96;   // 固定初始位置
+
+  // ---------- 状态 ----------
+  var eps = 0.0001;
+  var A, B, frame, firstDesync, divHist, running=false, ticksPerFrame=4;
+
+  function mk(extraX){
+    return { x:PX0 + extraX, y:PY0, vx:VX0, vy:VY0, trail:[] };
+  }
+  function resetSim(){
+    A = mk(0);
+    B = mk(eps);
+    frame = 0; firstDesync = -1; divHist = [];
+    pushTrail();
+    render(); updateHud();
+  }
+
+  function pushTrail(){
+    A.trail.push([A.x,A.y]); B.trail.push([B.x,B.y]);
+    if(A.trail.length>260){A.trail.shift(); B.trail.shift();}
+  }
+
+  // 一帧物理：两个世界跑完全相同的代码
+  function stepSim(s){
+    var h = DT/SUB;
+    for(var i=0;i<SUB;i++){
+      s.x += s.vx*h;
+      s.y += s.vy*h;
+      // 四壁反射
+      if(s.x < L0+BR){ s.x = L0+BR; s.vx = -s.vx; }
+      if(s.x > L1-BR){ s.x = L1-BR; s.vx = -s.vx; }
+      if(s.y < L0+BR){ s.y = L0+BR; s.vy = -s.vy; }
+      if(s.y > L1-BR){ s.y = L1-BR; s.vy = -s.vy; }
+      // 中央圆盘镜面反射 v' = v - 2(v·n)n
+      var dx = s.x-CX, dy = s.y-CY;
+      var d  = Math.sqrt(dx*dx+dy*dy);
+      var minD = R+BR;
+      if(d < minD){
+        var nx = dx/d, ny = dy/d;
+        s.x = CX + nx*minD;
+        s.y = CY + ny*minD;
+        var vn = s.vx*nx + s.vy*ny;
+        s.vx -= 2*vn*nx;
+        s.vy -= 2*vn*ny;
+      }
+    }
+  }
+
+  // 确定性校验和：量化状态后做 FNV-1a 哈希
+  function checksum(s){
+    var q = [Math.round(s.x*4096), Math.round(s.y*4096),
+             Math.round(s.vx*4096), Math.round(s.vy*4096)];
+    var h = 0x811c9dc5 >>> 0;
+    for(var i=0;i<q.length;i++){
+      var v = q[i] >>> 0;
+      for(var b=0;b<4;b++){
+        h ^= (v & 0xff); v >>>= 8;
+        h = Math.imul(h, 0x01000193) >>> 0;
+      }
+    }
+    return ("00000000" + h.toString(16)).slice(-8);
+  }
+
+  function tick(){
+    stepSim(A); stepSim(B);
+    frame++;
+    pushTrail();
+    var dx = A.x-B.x, dy = A.y-B.y;
+    var dist = Math.sqrt(dx*dx+dy*dy);
+    divHist.push(dist);
+    if(divHist.length>320) divHist.shift();
+    if(firstDesync<0){
+      if(checksum(A) !== checksum(B)) firstDesync = frame;
+    }
+  }
+
+  // ---------- 渲染 ----------
+  var cv = document.getElementById('arena'), ctx = cv.getContext('2d');
+  function render(){
+    ctx.clearRect(0,0,W,H);
+    // 桌面
+    ctx.fillStyle = '#070b13'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle = '#22304f'; ctx.lineWidth = 2;
+    ctx.strokeRect(L0,L0,L1-L0,L1-L0);
+    // 中央圆盘
+    var g = ctx.createRadialGradient(CX,CY,10,CX,CY,R);
+    g.addColorStop(0,'#1b2746'); g.addColorStop(1,'#0e1730');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#33456e'; ctx.lineWidth = 1.5; ctx.stroke();
+
+    drawTrail(B.trail,'rgba(255,157,62,0.55)');
+    drawTrail(A.trail,'rgba(62,166,255,0.55)');
+    drawBall(B,'#ff9d3e');
+    drawBall(A,'#3ea6ff');
+  }
+  function drawTrail(t,color){
+    if(t.length<2) return;
+    ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.beginPath();
+    ctx.moveTo(t[0][0],t[0][1]);
+    for(var i=1;i<t.length;i++) ctx.lineTo(t[i][0],t[i][1]);
+    ctx.stroke();
+  }
+  function drawBall(s,color){
+    ctx.beginPath(); ctx.arc(s.x,s.y,BR,0,Math.PI*2);
+    ctx.fillStyle = color; ctx.shadowColor = color; ctx.shadowBlur = 14;
+    ctx.fill(); ctx.shadowBlur = 0;
+  }
+
+  // 发散曲线（log 纵轴）
+  var dc = document.getElementById('divchart'), dctx = dc.getContext('2d');
+  function renderChart(){
+    var w=dc.width, h=dc.height;
+    dctx.clearRect(0,0,w,h);
+    dctx.fillStyle = '#070b13'; dctx.fillRect(0,0,w,h);
+    // 网格
+    dctx.strokeStyle = '#16203a'; dctx.lineWidth=1;
+    for(var gy=0;gy<=4;gy++){ var yy=h*gy/4; dctx.beginPath(); dctx.moveTo(0,yy); dctx.lineTo(w,yy); dctx.stroke(); }
+    if(divHist.length<2) return;
+    // log10 映射：1e-5 .. 1e3 px
+    var lo=-5, hi=3;
+    function ly(v){ var L=Math.log(Math.max(v,1e-9))/Math.LN10; L=Math.max(lo,Math.min(hi,L)); return h-(L-lo)/(hi-lo)*h; }
+    dctx.strokeStyle = '#ff4d5e'; dctx.lineWidth=2; dctx.beginPath();
+    for(var i=0;i<divHist.length;i++){
+      var x=i/(divHist.length-1)*w, y=ly(divHist[i]);
+      i? dctx.lineTo(x,y) : dctx.moveTo(x,y);
+    }
+    dctx.stroke();
+  }
+
+  // ---------- HUD ----------
+  var $=function(id){return document.getElementById(id);};
+  function updateHud(){
+    var cA=checksum(A), cB=checksum(B);
+    $('frame').textContent = frame;
+    $('cksA').textContent = cA;
+    $('cksB').textContent = cB;
+    var same = (cA===cB);
+    $('cksB').className = 'v mono ' + (same?'chkO':'mismatch');
+    var dx=A.x-B.x, dy=A.y-B.y, dist=Math.sqrt(dx*dx+dy*dy);
+    $('dist').textContent = dist.toFixed(4)+' px';
+    $('epsVal').textContent = eps+' px';
+    $('firstDesync').textContent = firstDesync<0 ? '— 尚未发生' : ('第 '+firstDesync+' 帧');
+    var st=$('status');
+    if(same){ st.className='status sync'; st.textContent='● 校验和一致 · IN SYNC'; }
+    else{ st.className='status desync'; st.textContent='✖ 校验和不一致 · DESYNC'; }
+    $('hint').textContent = dist<0.5 ? '两球此刻完全重合' : (dist<40?'误差正在悄悄放大…':'世界已彻底分裂');
+    // 估算 Lyapunov 斜率（最近一段 log 斜率）
+    if(divHist.length>30){
+      var n=divHist.length, a=divHist[n-30], b=divHist[n-1];
+      if(a>1e-9 && b>1e-9){
+        var slope=(Math.log(b)-Math.log(a))/30;
+        $('lyap').textContent = 'λ≈'+slope.toFixed(3)+'/帧';
+      }
+    } else $('lyap').textContent='斜率≈λ';
+  }
+
+  // ---------- 主循环 ----------
+  var acc=0, last=0;
+  function loop(ts){
+    if(running){
+      for(var i=0;i<ticksPerFrame;i++) tick();
+      render(); renderChart(); updateHud();
+    }
+    requestAnimationFrame(loop);
+  }
+
+  // ---------- 交互 ----------
+  $('play').addEventListener('click', function(){
+    running=!running;
+    this.textContent = running?'⏸ 暂停':'▶ 播放';
+    this.classList.toggle('primary', !running);
+  });
+  $('stepBtn').addEventListener('click', function(){
+    running=false; $('play').textContent='▶ 播放'; $('play').classList.add('primary');
+    tick(); render(); renderChart(); updateHud();
+  });
+  $('reset').addEventListener('click', function(){
+    running=false; $('play').textContent='▶ 播放'; $('play').classList.add('primary');
+    resetSim(); renderChart();
+  });
+  document.querySelectorAll('#epsGroup button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('#epsGroup button').forEach(function(b){b.classList.remove('active');});
+      this.classList.add('active');
+      eps = parseFloat(this.getAttribute('data-eps'));
+      resetSim(); renderChart();
+    });
+  });
+  $('speed').addEventListener('input', function(){
+    ticksPerFrame=parseInt(this.value,10);
+    $('spdVal').textContent = ticksPerFrame+'×';
+  });
+
+  resetSim(); renderChart();
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
