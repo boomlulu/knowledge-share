@@ -48,9 +48,9 @@ const scenes = [
   {
     id: "05",
     chapter: "第三幕",
-    title: "小兵往左还是往右，世界从这里分叉",
-    line: "同步问题最可怕的地方，不是第一次误差，而是误差会成为下一帧的起点。",
-    visual: "avalanche",
+    title: "小兵会打哪座塔？",
+    line: "AI 规则很简单：选最近的防御塔。问题是，两个客户端眼里的“最近”可能不一样。",
+    visual: "minionChoice",
     payoff: "展开小误差如何逐帧放大，回收“为什么小差异会变严重”。",
     hook: "既然让每个客户端算出完全一样这么难，能不能让服务器来算？",
     minutes: "8:00 - 18:00",
@@ -103,8 +103,16 @@ const scenes = [
 ];
 
 const chapters = Array.from(new Set(scenes.map((scene) => scene.chapter)));
+
+function getInitialSceneIndex() {
+  const params = new URLSearchParams(window.location.search);
+  const requested = params.get("scene") || window.location.hash.replace("#", "");
+  const index = scenes.findIndex((scene) => scene.id === requested.padStart(2, "0"));
+  return index >= 0 ? index : 0;
+}
+
 const state = {
-  index: 0,
+  index: getInitialSceneIndex(),
   overviewOpen: false
 };
 
@@ -225,10 +233,35 @@ function renderVisual(type) {
     `;
   }
 
-  if (type === "avalanche") {
+  if (type === "minionChoice") {
     return `
-      <div class="visual-avalanche">
-        ${[12, 18, 30, 54, 96, 168, 260].map((height, index) => `<div class="bar" style="height:${height}px" data-frame="F${index + 1}"></div>`).join("")}
+      <div class="visual-minion-choice">
+        <div class="lane-scene">
+          <div class="tower tower-left">
+            <span>左防御塔</span>
+          </div>
+          <div class="minion">
+            <span>小兵</span>
+          </div>
+          <div class="tower tower-right">
+            <span>右防御塔</span>
+          </div>
+          <div class="choice-rule">AI 规则：攻击最近的防御塔</div>
+          <div class="choice-question">猜一猜：它会打哪边？</div>
+        </div>
+
+        <div class="client-split">
+          <div class="client-result left-result">
+            <strong>A 客户端</strong>
+            <span>小兵判定左塔更近</span>
+            <b>选择左边</b>
+          </div>
+          <div class="client-result right-result">
+            <strong>B 客户端</strong>
+            <span>小兵判定右塔更近</span>
+            <b>选择右边</b>
+          </div>
+        </div>
       </div>
     `;
   }
