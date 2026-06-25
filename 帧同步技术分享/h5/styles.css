@@ -182,7 +182,7 @@ p {
 }
 
 .chapter-rail,
-.speaker-panel,
+.info-panel,
 .overview {
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -449,7 +449,7 @@ p {
   font-variant-numeric: tabular-nums;
 }
 
-.speaker-panel {
+.info-panel {
   padding: 18px;
   display: flex;
   flex-direction: column;
@@ -465,7 +465,7 @@ p {
   border-bottom: 1px solid var(--line);
 }
 
-#speakerNotes {
+#sceneDetail {
   color: var(--soft);
   font-size: 14px;
   line-height: 1.8;
@@ -908,20 +908,12 @@ p {
   margin-bottom: 8px;
 }
 
-body.notes-collapsed .speaker-panel {
-  display: none;
-}
-
-body.notes-collapsed .player-layout {
-  grid-template-columns: 250px minmax(0, 1fr);
-}
-
 @media (max-width: 1180px) {
   .player-layout {
     grid-template-columns: 210px minmax(0, 1fr);
   }
 
-  .speaker-panel {
+  .info-panel {
     display: none;
   }
 

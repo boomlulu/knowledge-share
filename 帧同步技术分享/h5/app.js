@@ -10,7 +10,7 @@ const scenes = [
     payoff: "先建立观众共识：这确实像一个已经同步的游戏。",
     hook: "如果画面完全同步，为什么我还是不放心？",
     minutes: "0:00 - 1:00",
-    notes: "冷开场不要自我介绍。先把真实项目画面感立住，让观众进入“这看起来没问题”的判断。"
+    detail: "从一个肉眼完全同步的项目开始，让所有人先相信：这看起来确实没有问题。"
   },
   {
     id: "02",
@@ -21,7 +21,7 @@ const scenes = [
     payoff: "回应“为什么不放心”：肉眼只能看见表现，不一定能看见底层数据差异。",
     hook: "这点差异是真问题，还是可以忽略的显示误差？",
     minutes: "1:00 - 2:00",
-    notes: "这里后续要做成 A/B 两个客户端画面叠加，B 用 50% 透明度。不要急着讲原理，先让观众“看见一点不对劲”。"
+    detail: "通过透明叠加和差异放大，让观众看到：表现层重合，不等于底层数据完全一致。"
   },
   {
     id: "03",
@@ -32,7 +32,7 @@ const scenes = [
     payoff: "证明“不是肉眼误差那么简单”。",
     hook: "画面还没穿帮，工具凭什么说它不同步？",
     minutes: "2:00 - 4:00",
-    notes: "注意用“接入工具”，不是“打开工具”。日志要有压迫感，但不要出现虚构项目数据。"
+    detail: "接入检测工具之后，画面仍然没穿帮，但底层状态开始连续报警。"
   },
   {
     id: "04",
@@ -43,7 +43,7 @@ const scenes = [
     payoff: "回答工具凭什么报警：它对比的是底层关键数据。",
     hook: "如果只是一个极小差异，为什么最后会变成整个世界分叉？",
     minutes: "4:00 - 8:00",
-    notes: "第二章只抛出检测逻辑，不展开雪崩。动画驱动和 Unity float 只点到，给第三章留空间。"
+    detail: "把画面和底层数据拆开看：工具关心的是每一帧关键状态是否真的一致。"
   },
   {
     id: "05",
@@ -54,7 +54,7 @@ const scenes = [
     payoff: "展开小误差如何逐帧放大，回收“为什么小差异会变严重”。",
     hook: "既然让每个客户端算出完全一样这么难，能不能让服务器来算？",
     minutes: "8:00 - 18:00",
-    notes: "用手机射击 MOBA 的小兵寻路案例。强调大多数人不知道不同步具体发生在哪。"
+    detail: "小兵寻路里的微小差异，会变成下一帧计算的起点，最后把整个世界带向不同结果。"
   },
   {
     id: "06",
@@ -65,7 +65,7 @@ const scenes = [
     payoff: "解释状态同步为什么自然登场，也为什么仍然昂贵。",
     hook: "帧同步和状态同步都贵，小团队怎么办？",
     minutes: "18:00 - 25:00",
-    notes: "这一段要解决用户之前指出的突兀感：状态同步必须从帧同步困境自然逼出来。"
+    detail: "当帧同步太难扛，状态同步自然成为候选答案；但它只是把复杂度转移到了服务器模拟。"
   },
   {
     id: "07",
@@ -76,7 +76,7 @@ const scenes = [
     payoff: "回应“有没有第三种方式”：本地拟真负责连续性，分布式权威负责拉回正确状态。",
     hook: "如果每个人都是自己的权威，那 PvP 怎么办？",
     minutes: "25:00 - 43:00",
-    notes: "这是全场最高点。要讲清楚分布式权威不是分布式服务器，而是权威分散到客户端和实体持有者。"
+    detail: "自研框架的核心登场：本地拟真维持连续体验，分布式权威持续把状态拉回正确轨道。"
   },
   {
     id: "08",
@@ -87,7 +87,7 @@ const scenes = [
     payoff: "回应客户端权威带来的防作弊质疑。",
     hook: "所以这套框架真正管理的到底是什么？",
     minutes: "43:00 - 49:00",
-    notes: "这里保留互动抢答。防作弊只做反驳和哲学收束，不展开成 12 分钟专题。"
+    detail: "客户端拥有权威之后，防作弊不靠口头承诺，而靠可回放、可审计的确定性数据。"
   },
   {
     id: "09",
@@ -98,7 +98,7 @@ const scenes = [
     payoff: "回收全场：可观测、可修正、可回放、可审计。",
     hook: "无",
     minutes: "49:00 - 55:00",
-    notes: "结尾不要讲新技术点。回到开场：你以为同步了其实没有，你以为防不住其实跑不掉。"
+    detail: "最终落点：成熟同步框架管理的不是 API，而是偏差、复杂度和信任。"
   }
 ];
 
@@ -109,7 +109,6 @@ const state = {
 };
 
 const el = {
-  body: document.body,
   chapterNav: document.getElementById("chapterNav"),
   overview: document.getElementById("overview"),
   overviewGrid: document.getElementById("overviewGrid"),
@@ -121,11 +120,10 @@ const el = {
   payoffText: document.getElementById("payoffText"),
   hookText: document.getElementById("hookText"),
   counter: document.getElementById("counter"),
-  speakerNotes: document.getElementById("speakerNotes"),
+  sceneDetail: document.getElementById("sceneDetail"),
   timeHint: document.getElementById("timeHint"),
   prevButton: document.getElementById("prevButton"),
   nextButton: document.getElementById("nextButton"),
-  notesButton: document.getElementById("notesButton"),
   overviewButton: document.getElementById("overviewButton"),
   fullscreenButton: document.getElementById("fullscreenButton")
 };
@@ -141,7 +139,7 @@ function render() {
   el.payoffText.textContent = scene.payoff;
   el.hookText.textContent = scene.hook;
   el.counter.textContent = `${state.index + 1} / ${scenes.length}`;
-  el.speakerNotes.textContent = scene.notes;
+  el.sceneDetail.textContent = scene.detail;
   el.timeHint.textContent = scene.minutes;
   el.visualFrame.innerHTML = renderVisual(scene.visual);
 
@@ -319,10 +317,6 @@ function toggleOverview() {
   el.overview.classList.toggle("open", state.overviewOpen);
 }
 
-function toggleNotes() {
-  el.body.classList.toggle("notes-collapsed");
-}
-
 function toggleFullscreen() {
   if (!document.fullscreenElement) {
     document.documentElement.requestFullscreen?.();
@@ -334,7 +328,6 @@ function toggleFullscreen() {
 function bindEvents() {
   el.prevButton.addEventListener("click", () => go(-1));
   el.nextButton.addEventListener("click", () => go(1));
-  el.notesButton.addEventListener("click", toggleNotes);
   el.overviewButton.addEventListener("click", toggleOverview);
   el.fullscreenButton.addEventListener("click", toggleFullscreen);
 
@@ -359,9 +352,6 @@ function bindEvents() {
     if (event.key === "ArrowLeft") {
       event.preventDefault();
       go(-1);
-    }
-    if (event.key.toLowerCase() === "n") {
-      toggleNotes();
     }
     if (event.key.toLowerCase() === "o") {
       toggleOverview();

@@ -22,10 +22,6 @@
           <span aria-hidden="true">☷</span>
           <span class="sr-only">总览</span>
         </button>
-        <button class="icon-button" id="notesButton" type="button" title="讲者备注">
-          <span aria-hidden="true">☰</span>
-          <span class="sr-only">讲者备注</span>
-        </button>
         <button class="icon-button" id="fullscreenButton" type="button" title="全屏">
           <span aria-hidden="true">⛶</span>
           <span class="sr-only">全屏</span>
@@ -72,15 +68,14 @@
         </div>
       </section>
 
-      <aside class="speaker-panel" id="speakerPanel" aria-label="讲者备注">
+      <aside class="info-panel" id="infoPanel" aria-label="当前镜头说明">
         <div class="panel-head">
-          <span>讲者备注</span>
+          <span>当前镜头</span>
           <span id="timeHint"></span>
         </div>
-        <p id="speakerNotes"></p>
+        <p id="sceneDetail"></p>
         <div class="shortcut-grid">
           <span>← / →</span><span>切换镜头</span>
-          <span>N</span><span>备注显隐</span>
           <span>O</span><span>总览显隐</span>
           <span>F</span><span>全屏</span>
         </div>
@@ -90,7 +85,7 @@
     <section class="overview" id="overview" aria-label="镜头总览">
       <div class="overview-head">
         <h2>镜头总览</h2>
-        <p>用于排练时快速跳转，也用于后续协作审核每个镜头的作用。</p>
+        <p>用于快速跳转，也用于后续协作审核每个镜头的作用。</p>
       </div>
       <div class="overview-grid" id="overviewGrid"></div>
     </section>
