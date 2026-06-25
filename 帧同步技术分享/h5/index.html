@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>帧同步技术分享 · H5 演讲播放器</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="deck-shell" aria-label="帧同步技术分享 H5 演讲播放器">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <p class="eyebrow">网络同步框架 · 技术分享</p>
+          <h1>画面同步，不代表底层数据一致</h1>
+        </div>
+      </div>
+
+      <div class="top-actions" aria-label="播放器控制">
+        <button class="icon-button" id="overviewButton" type="button" title="总览">
+          <span aria-hidden="true">☷</span>
+          <span class="sr-only">总览</span>
+        </button>
+        <button class="icon-button" id="notesButton" type="button" title="讲者备注">
+          <span aria-hidden="true">☰</span>
+          <span class="sr-only">讲者备注</span>
+        </button>
+        <button class="icon-button" id="fullscreenButton" type="button" title="全屏">
+          <span aria-hidden="true">⛶</span>
+          <span class="sr-only">全屏</span>
+        </button>
+      </div>
+    </header>
+
+    <section class="player-layout">
+      <aside class="chapter-rail" aria-label="章节导航">
+        <div class="rail-title">章节</div>
+        <nav id="chapterNav" class="chapter-list"></nav>
+      </aside>
+
+      <section class="stage-wrap" aria-live="polite">
+        <div class="progress-track" aria-hidden="true">
+          <span id="progressBar"></span>
+        </div>
+
+        <article class="stage" id="stage">
+          <div class="stage-copy">
+            <p class="scene-kicker" id="sceneKicker"></p>
+            <h2 id="sceneTitle"></h2>
+            <p class="scene-line" id="sceneLine"></p>
+          </div>
+
+          <div class="visual-frame" id="visualFrame"></div>
+
+          <footer class="debt-strip">
+            <div>
+              <span class="debt-label">正在偿还</span>
+              <p id="payoffText"></p>
+            </div>
+            <div>
+              <span class="debt-label">下一个钩子</span>
+              <p id="hookText"></p>
+            </div>
+          </footer>
+        </article>
+
+        <div class="transport" aria-label="播放控制">
+          <button class="nav-button" id="prevButton" type="button" title="上一镜头">‹</button>
+          <div class="counter" id="counter"></div>
+          <button class="nav-button" id="nextButton" type="button" title="下一镜头">›</button>
+        </div>
+      </section>
+
+      <aside class="speaker-panel" id="speakerPanel" aria-label="讲者备注">
+        <div class="panel-head">
+          <span>讲者备注</span>
+          <span id="timeHint"></span>
+        </div>
+        <p id="speakerNotes"></p>
+        <div class="shortcut-grid">
+          <span>← / →</span><span>切换镜头</span>
+          <span>N</span><span>备注显隐</span>
+          <span>O</span><span>总览显隐</span>
+          <span>F</span><span>全屏</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="overview" id="overview" aria-label="镜头总览">
+      <div class="overview-head">
+        <h2>镜头总览</h2>
+        <p>用于排练时快速跳转，也用于后续协作审核每个镜头的作用。</p>
+      </div>
+      <div class="overview-grid" id="overviewGrid"></div>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
