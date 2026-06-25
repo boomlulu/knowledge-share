@@ -198,11 +198,11 @@ function renderVisual(type) {
         <div class="log-panel">
           <span class="timer">T + 02:00</span>
           <div class="log-line">检测工具已接入</div>
-          <div class="log-line">frame 7012 / checksum ok</div>
-          <div class="log-line error">frame 7136 / position mismatch</div>
-          <div class="log-line error">frame 7137 / rotation mismatch</div>
-          <div class="log-line error">frame 7138 / animation value mismatch</div>
-          <div class="log-line error">frame 7139 / world state mismatch</div>
+          <div class="log-line">第 7012 帧 / 校验通过</div>
+          <div class="log-line error">第 7136 帧 / 位置不一致</div>
+          <div class="log-line error">第 7137 帧 / 朝向不一致</div>
+          <div class="log-line error">第 7138 帧 / 动画驱动值不一致</div>
+          <div class="log-line error">第 7139 帧 / 世界状态不一致</div>
         </div>
       </div>
     `;
