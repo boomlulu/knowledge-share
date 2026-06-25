@@ -553,6 +553,11 @@ p {
 .visual-logs,
 .visual-data,
 .visual-minion-choice,
+.visual-moba-map,
+.visual-twin-sim,
+.visual-chain,
+.visual-concept,
+.visual-correction,
 .visual-routes,
 .visual-framework,
 .visual-cheat,
@@ -931,6 +936,338 @@ p {
   font-size: 18px;
 }
 
+.muted-result .client-result {
+  opacity: 0.64;
+}
+
+.muted-result .client-result b {
+  color: var(--muted);
+}
+
+.visual-concept,
+.visual-twin-sim,
+.visual-chain,
+.visual-moba-map,
+.visual-correction {
+  background: linear-gradient(180deg, #ffffff, #f6faff);
+}
+
+.visual-concept {
+  display: grid;
+  align-content: center;
+  gap: 22px;
+  padding: 32px;
+}
+
+.concept-title {
+  max-width: 720px;
+  margin: 0 auto;
+  color: var(--soft);
+  font-size: 20px;
+  font-weight: 760;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.concept-card {
+  min-height: 118px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: var(--shadow-soft);
+  padding: 16px;
+  display: grid;
+  align-content: center;
+  gap: 10px;
+}
+
+.concept-card span {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 820;
+}
+
+.concept-card strong {
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.visual-chain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 34px;
+  overflow-x: auto;
+}
+
+.chain-node {
+  min-width: 126px;
+  min-height: 96px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: var(--shadow-soft);
+  padding: 14px;
+  display: grid;
+  align-content: center;
+  gap: 9px;
+}
+
+.chain-node span {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 820;
+}
+
+.chain-node strong {
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.chain-arrow {
+  color: var(--blue);
+  font-size: 24px;
+  font-weight: 820;
+}
+
+.visual-moba-map {
+  padding: 26px;
+}
+
+.moba-field {
+  position: relative;
+  height: 100%;
+  min-height: 280px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  background:
+    linear-gradient(45deg, transparent 49.6%, rgba(63, 124, 255, 0.24) 49.8% 50.2%, transparent 50.4%),
+    radial-gradient(circle at 20% 20%, rgba(63, 124, 255, 0.14), transparent 18%),
+    radial-gradient(circle at 80% 80%, rgba(85, 214, 255, 0.16), transparent 18%),
+    #eef6ff;
+}
+
+.moba-lane {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  height: 28px;
+  border: 1px solid rgba(63, 124, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.top-lane {
+  top: 30%;
+}
+
+.bottom-lane {
+  bottom: 30%;
+}
+
+.moba-base,
+.moba-tower,
+.moba-dot {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 760;
+  box-shadow: var(--shadow-soft);
+}
+
+.moba-base {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+}
+
+.left-base {
+  left: 8%;
+  bottom: 10%;
+}
+
+.right-base {
+  right: 8%;
+  top: 10%;
+}
+
+.moba-tower {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #ffffff, #dfeeff);
+  border: 1px solid rgba(63, 124, 255, 0.28);
+}
+
+.left-tower {
+  left: 33%;
+  top: 28%;
+}
+
+.right-tower {
+  right: 33%;
+  bottom: 28%;
+}
+
+.moba-dot {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  color: #ffffff;
+}
+
+.minion-dot {
+  left: 48%;
+  top: 46%;
+  background: #243244;
+}
+
+.player-dot {
+  left: 28%;
+  bottom: 24%;
+  background: var(--blue);
+}
+
+.enemy-dot {
+  right: 28%;
+  top: 24%;
+  background: var(--red);
+}
+
+.visual-twin-sim {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+  padding: 34px;
+}
+
+.sim-label,
+.sim-caption {
+  justify-self: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: var(--shadow-soft);
+}
+
+.sim-label {
+  padding: 9px 16px;
+  color: var(--blue);
+  font-weight: 820;
+}
+
+.sim-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.sim-card {
+  min-height: 150px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+}
+
+.sim-card strong {
+  font-size: 24px;
+  color: var(--ink);
+}
+
+.sim-card span,
+.sim-caption span {
+  color: var(--muted);
+}
+
+.sim-caption {
+  padding: 14px 18px;
+  display: grid;
+  gap: 4px;
+  text-align: center;
+}
+
+.sim-caption strong {
+  color: var(--ink);
+}
+
+.visual-correction {
+  display: grid;
+  align-content: center;
+  gap: 28px;
+  padding: 38px;
+}
+
+.drift-line {
+  position: relative;
+  height: 170px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, transparent 48%, rgba(63, 124, 255, 0.18) 49% 51%, transparent 52%),
+    rgba(255, 255, 255, 0.7);
+  overflow: hidden;
+}
+
+.local-state,
+.authority-state,
+.correction-pulse {
+  position: absolute;
+  border-radius: 999px;
+  padding: 8px 13px;
+  box-shadow: var(--shadow-soft);
+  font-size: 13px;
+  font-weight: 760;
+}
+
+.local-state {
+  left: 14%;
+  top: 36%;
+  color: #ffffff;
+  background: var(--blue);
+}
+
+.authority-state {
+  right: 14%;
+  top: 52%;
+  color: var(--blue);
+  background: #ffffff;
+  border: 1px solid var(--line);
+}
+
+.correction-pulse {
+  left: 50%;
+  top: 44%;
+  transform: translateX(-50%);
+  color: #ffffff;
+  background: var(--green);
+}
+
+.correction-copy {
+  justify-self: center;
+  color: var(--soft);
+  font-size: 20px;
+  font-weight: 760;
+}
+
 .visual-routes {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1189,6 +1526,11 @@ p {
   .visual-logs,
   .visual-data,
   .visual-minion-choice,
+  .visual-moba-map,
+  .visual-twin-sim,
+  .visual-chain,
+  .visual-concept,
+  .visual-correction,
   .visual-routes,
   .visual-framework,
   .visual-cheat,
@@ -1246,8 +1588,29 @@ p {
   .visual-data,
   .visual-routes,
   .visual-cheat,
+  .sim-columns,
   .closing-grid {
     grid-template-columns: 1fr;
+  }
+
+  .visual-concept,
+  .visual-twin-sim,
+  .visual-correction,
+  .visual-moba-map {
+    padding: 16px;
+  }
+
+  .concept-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .visual-chain {
+    justify-content: flex-start;
+    padding: 18px;
+  }
+
+  .chain-node {
+    min-width: 118px;
   }
 
   .route-card + .route-card,
