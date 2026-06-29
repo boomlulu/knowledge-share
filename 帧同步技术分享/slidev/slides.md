@@ -90,7 +90,7 @@ layout: default
 layout: default
 ---
 
-<h1>接入检测工具之后，世界突然换了一张脸</h1>
+<h1>接上检测工具，另一个世界冒出来了</h1>
 
 <div class="three-card-grid">
   <div class="mini-card">
@@ -144,7 +144,7 @@ layout: default
 layout: default
 ---
 
-<h1>检测工具的价值，不是修复，而是证明</h1>
+<h1>检测工具不是修理工，是取证员</h1>
 
 <div class="two-col-grid">
 <div>
@@ -175,7 +175,7 @@ layout: default
 layout: default
 ---
 
-<h1>真正落地时，检测的不是“像不像”，而是状态指纹</h1>
+<h1>真正要比的不是画面，而是状态指纹</h1>
 
 <div class="two-col-grid">
 <div>
@@ -206,7 +206,7 @@ layout: default
 layout: default
 ---
 
-<h1>发现不同步之后，再做第二级精检测</h1>
+<h1>抓到分叉帧之后，再拆到对象和字段</h1>
 
 <div class="three-card-grid">
   <div class="mini-card">
@@ -231,7 +231,7 @@ layout: default
 layout: default
 ---
 
-<h1>为什么肉眼会被骗？</h1>
+<h1>肉眼为什么会被骗？</h1>
 
 <div class="two-col-grid">
 <div>
@@ -275,7 +275,7 @@ layout: default
 layout: default
 ---
 
-<h1>先看见不同步，后面才谈得上解决</h1>
+<h1>先把不同步抓出来，后面才有案子可破</h1>
 
 <h3>更常见的问题是</h3>
 
@@ -318,7 +318,7 @@ flowchart LR
 layout: default
 ---
 
-<h1>这个 MOBA 从一开始就踩在危险地面上</h1>
+<h1>这个 MOBA 一上来就站在危险边缘</h1>
 
 <div class="three-card-grid">
   <div class="mini-card">
@@ -380,7 +380,7 @@ layout: default
 layout: default
 ---
 
-<h1>所以帧同步的工程压力，本质上是确定性工程</h1>
+<h1>帧同步真正压人的，是每一帧都不能松</h1>
 
 <div class="two-col-grid">
 <div>
@@ -444,7 +444,7 @@ layout: default
 layout: default
 ---
 
-<h1>它确实绕开了一部分帧同步的压力</h1>
+<h1>服务器来算，确实能绕开一部分压力</h1>
 
 <h3>它确实能缓解这些问题</h3>
 
@@ -460,7 +460,7 @@ layout: default
 layout: default
 ---
 
-<h1>代价是：服务器要理解并运行足够完整的世界</h1>
+<h1>代价是：服务器也得懂这个世界</h1>
 
 <h3>但服务器也不可能只做转发</h3>
 
@@ -493,7 +493,7 @@ layout: section
 layout: default
 ---
 
-<h1>这套自研框架到底是什么</h1>
+<h1>第三条路长什么样</h1>
 
 > 拟真驱动整个世界每一帧运行，再以状态同步的方式做权威修正。
 
@@ -589,7 +589,7 @@ layout: default
 layout: default
 ---
 
-<h1>不是所有字段，都该用同一种修正方式</h1>
+<h1>不同字段，要用不同的拉回方式</h1>
 
 <h3>更常见的做法是</h3>
 
@@ -605,7 +605,7 @@ layout: default
 layout: default
 ---
 
-<h1>分布式权威：不是很多服务器，而是权威分散在对象上</h1>
+<h1>分布式权威，不是服务器变多了</h1>
 
 <h3>最容易被误解的地方</h3>
 
@@ -693,7 +693,7 @@ layout: default
 layout: default
 ---
 
-<h1>所谓“第三种路线”，本质上是重新分配复杂度</h1>
+<h1>第三条路没有消灭复杂度，只是换了放法</h1>
 
 <h3>它们真正的差别在这里</h3>
 
@@ -709,7 +709,7 @@ layout: default
 layout: default
 ---
 
-<h1>PvP 里最容易被追问的问题：怎么防作弊？</h1>
+<h1>PvP 里一定会被追问：那怎么防作弊？</h1>
 
 <div class="three-card-grid">
   <div class="mini-card">
@@ -746,7 +746,7 @@ layout: default
 layout: default
 ---
 
-<h1>所谓“可回放”，本质上是把行为重新解释一遍</h1>
+<h1>可回放，就是把当时的行为重新跑一遍</h1>
 
 ```mermaid
 flowchart LR
@@ -783,7 +783,7 @@ layout: default
 layout: section
 ---
 
-<h1>框架的价值，是重新分配复杂度</h1>
+<h1>复杂度没有消失，只是被重新安放</h1>
 
 ---
 layout: default
@@ -805,7 +805,7 @@ layout: default
 layout: default
 ---
 
-<h1>以后再看一个同步方案，不要只问它叫什么</h1>
+<h1>以后再看同步方案，别先问它叫什么</h1>
 
 <div class="four-questions">
   <div>1. 它怎么看见不同步？</div>
