@@ -33,6 +33,32 @@ h1, h2, h3 {
   opacity: 0.92;
 }
 
+.slidev-layout.cover .hero-meta {
+  position: absolute;
+  right: 2rem;
+  bottom: 1.6rem;
+  margin-top: 0;
+  justify-content: flex-end;
+}
+
+.diff-figure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 1.2rem 0;
+}
+
+.diff-figure img {
+  display: block;
+  width: min(980px, 88%);
+  max-height: 64vh;
+  object-fit: contain;
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
 .hero-meta span,
 .timeline-step,
 .mini-card,

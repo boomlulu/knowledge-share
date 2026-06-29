@@ -1,6 +1,6 @@
 ---
 theme: '@ktym4a/slidev-theme-ktym4a'
-title: 帧同步技术分享
+title: 多人同步技术分享
 titleTemplate: '%s'
 info: 给大学应届生的企业级同步框架分享
 author: Codex
@@ -24,15 +24,23 @@ fonts:
 layout: cover
 ---
 
-<h1>帧同步技术分享</h1>
+<h1>多人同步技术分享</h1>
 
-同步框架不是 API  
-而是在管理偏差、复杂度和信任
+今天我们来破一个案子  
+为什么两边看着一模一样  
+最后却不是同一个世界
 
 <div class="hero-meta">
-  <span>对象：大学应届生</span>
   <span>时长：60 分钟</span>
-  <span>主线：看见偏差 → 管理偏差</span>
+</div>
+
+---
+layout: center
+class: text-center
+---
+
+<div class="diff-figure">
+  <img src="./diff.png" alt="画面一致但数据分叉" />
 </div>
 
 ---
@@ -46,8 +54,8 @@ layout: statement
 <h1>底层数据一致</h1>
 
 <div class="statement-subline">
-肉眼看到的是结果。<br>
-网络同步真正关心的，是同一时刻两端底层状态是不是一致。
+肉眼看到的是画面。<br>
+网络同步真正关心的，是同一时刻两端底层数据是否一致。
 </div>
 
 ---
