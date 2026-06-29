@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.slidev-dev.log
+.slidev-dev.pid
+.DS_Store
+*.meta
+preview-*.png
+chapter1-page*.png

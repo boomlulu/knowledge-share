@@ -1,0 +1,158 @@
+.slidev-layout {
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), transparent 24%),
+    radial-gradient(circle at 80% 12%, rgba(255, 255, 255, 0.06), transparent 20%),
+    linear-gradient(180deg, rgba(17, 17, 27, 0.96), rgba(24, 24, 37, 0.98));
+}
+
+h1, h2, h3 {
+  letter-spacing: -0.03em;
+}
+
+.slidev-layout h1::before,
+.slidev-layout h2::before,
+.slidev-layout h3::before {
+  content: none !important;
+  padding-right: 0 !important;
+}
+
+.hero-meta,
+.four-questions,
+.timeline-card,
+.two-col-grid,
+.three-card-grid,
+.compare-grid {
+  margin-top: 1.2rem;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.92rem;
+  opacity: 0.92;
+}
+
+.hero-meta span,
+.timeline-step,
+.mini-card,
+.compare-card,
+.four-questions div {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+}
+
+.hero-meta span {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+}
+
+.two-col-grid,
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.three-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.mini-card,
+.compare-card {
+  border-radius: 20px;
+  padding: 1rem 1rem 0.8rem;
+}
+
+.mini-card h3,
+.compare-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-card {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.timeline-step {
+  border-radius: 18px;
+  padding: 0.8rem 0.9rem;
+  min-height: 4rem;
+}
+
+.timeline-step.active {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.callout,
+.question-box {
+  margin-top: 1rem;
+  border-radius: 18px;
+  padding: 0.9rem 1rem;
+  line-height: 1.55;
+}
+
+.callout {
+  background: rgba(137, 220, 235, 0.12);
+  border: 1px solid rgba(137, 220, 235, 0.3);
+}
+
+.callout.warning {
+  background: rgba(249, 226, 175, 0.12);
+  border-color: rgba(249, 226, 175, 0.28);
+}
+
+.callout.danger {
+  background: rgba(243, 139, 168, 0.12);
+  border-color: rgba(243, 139, 168, 0.28);
+}
+
+.question-box {
+  background: rgba(203, 166, 247, 0.12);
+  border: 1px dashed rgba(203, 166, 247, 0.4);
+  font-weight: 600;
+}
+
+.statement-subline {
+  margin-top: 1.4rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  opacity: 0.9;
+}
+
+.speaker-cue {
+  margin-top: 0.9rem;
+  font-size: 0.92rem;
+  opacity: 0.78;
+}
+
+.four-questions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.four-questions div {
+  border-radius: 18px;
+  padding: 1rem;
+  font-size: 1.05rem;
+}
+
+table {
+  font-size: 0.92rem;
+}
+
+@media (max-width: 900px) {
+  .two-col-grid,
+  .compare-grid,
+  .three-card-grid,
+  .timeline-card,
+  .four-questions {
+    grid-template-columns: 1fr;
+  }
+}

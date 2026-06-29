@@ -1,0 +1,16 @@
+{
+  "name": "frame-sync-tech-share-slidev",
+  "private": true,
+  "scripts": {
+    "dev": "slidev --host 0.0.0.0",
+    "build": "slidev build",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@ktym4a/slidev-theme-ktym4a": "^0.3.2",
+    "@slidev/cli": "^52.16.0",
+    "@slidev/theme-default": "^0.25.0",
+    "playwright-chromium": "^1.54.2",
+    "vue": "^3.5.18"
+  }
+}
