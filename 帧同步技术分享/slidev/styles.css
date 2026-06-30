@@ -374,6 +374,50 @@ h1, h2, h3 {
   opacity: 0.78;
 }
 
+.closing-statement h1 {
+  margin: 0 0 3rem !important;
+  font-size: 4.55rem !important;
+  line-height: 1.08 !important;
+  text-align: center;
+}
+
+.closing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  width: min(880px, 92%);
+  margin: 0 auto;
+}
+
+.closing-grid div {
+  display: flex;
+  min-height: 7.5rem;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 18px;
+  padding: 0.9rem 0.85rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.closing-grid strong,
+.closing-grid span {
+  display: block;
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+.closing-grid strong {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.98rem;
+}
+
+.closing-grid span {
+  margin-top: 0.55rem;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.88rem;
+}
+
 .four-questions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
