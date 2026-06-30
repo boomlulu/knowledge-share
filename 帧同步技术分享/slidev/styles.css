@@ -386,6 +386,38 @@ h1, h2, h3 {
   font-size: 1.05rem;
 }
 
+.sync-prereq-slide .mermaid {
+  margin: 0.8rem auto 0.95rem;
+  max-width: 92%;
+}
+
+.sync-prereq-slide .mermaid svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.sync-prereq-slide .nodeLabel,
+.sync-prereq-slide .edgeLabel {
+  font-size: 0.84rem;
+}
+
+.target-branch-slide .mermaid {
+  margin: 0.8rem auto 0;
+  max-width: 94%;
+}
+
+.target-branch-slide .mermaid svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.target-branch-slide .nodeLabel,
+.target-branch-slide .edgeLabel {
+  font-size: 0.78rem;
+}
+
 table {
   font-size: 0.92rem;
 }
