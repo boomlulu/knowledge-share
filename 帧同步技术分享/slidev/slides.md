@@ -8,6 +8,7 @@ class: text-left
 drawings:
   persist: false
 transition: fade
+routerMode: hash
 mdc: true
 themeConfig:
   baseColor: teal
