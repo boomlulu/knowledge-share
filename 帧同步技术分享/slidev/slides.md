@@ -41,12 +41,18 @@ class: text-center
 clicks: 1
 ---
 
+<h1>这两边同步了吗？</h1>
+
 <div class="diff-figure">
   <div class="diff-stage">
     <img src="./diff.png" alt="表现一致但逻辑状态分叉" />
     <div v-click-hide="1" class="param-mask param-mask-left"></div>
     <div v-click-hide="1" class="param-mask param-mask-right"></div>
   </div>
+</div>
+
+<div v-click="1" class="question-box">
+画面看起来没报警，底部数据已经分开。
 </div>
 
 ---
@@ -147,6 +153,16 @@ layout: default
 </div>
 
 ---
+layout: statement
+---
+
+<h1>检测工具报警之后，会自动修好吗？</h1>
+
+<div class="statement-subline">
+先猜一下：它到底是修复工具，还是定位工具？
+</div>
+
+---
 layout: default
 ---
 
@@ -175,6 +191,16 @@ layout: default
 
 <div class="callout warning">
 多人同步不能靠观察表现层判断一致性，必须有逻辑层检测链路。
+</div>
+
+---
+layout: statement
+---
+
+<h1>`HashCode` 不一致，就知道哪个对象错了吗？</h1>
+
+<div class="statement-subline">
+先别急着定位对象，第一步只回答一个问题。
 </div>
 
 ---
@@ -295,6 +321,16 @@ layout: default
 </div>
 
 ---
+layout: statement
+---
+
+<h1>核心逻辑都定点数化了，还会不同步吗？</h1>
+
+<div class="statement-subline">
+先猜一下：风险会不会从主链路之外冒出来？
+</div>
+
+---
 layout: default
 ---
 
@@ -361,6 +397,16 @@ layout: section
 <h1>帧同步中的误差雪崩</h1>
 
 ---
+layout: statement
+---
+
+<h1>收到同一份输入，就一定同步吗？</h1>
+
+<div class="statement-subline">
+如果后面每一帧都由客户端自己算，真正要一致的是什么？
+</div>
+
+---
 layout: default
 class: sync-prereq-slide
 ---
@@ -412,21 +458,59 @@ layout: default
 class: target-branch-slide
 ---
 
-<h1>分叉往往始于一次普通的目标选择</h1>
+<h1>小兵会打哪座塔？</h1>
 
-<h3>一个具体场景</h3>
+<h3>规则只有一句</h3>
 
-- 小兵需要判断自己该前往哪一座防御塔
-- 如果两个客户端的小兵位置存在微小偏差，最近目标就可能不同
-- A 客户端选择左塔，B 客户端选择右塔，状态从这一刻开始分叉
+- 小兵会攻击距离最近的防御塔
+- 两个客户端看起来还在同一条战线
+- 位置差异小到表现层未必看得出来
 
-```mermaid
-flowchart LR
-  P1["位置状态存在微小偏差"] --> P2["目标选择结果不同"]
-  P2 --> P3["移动方向不同"]
-  P3 --> P4["攻击 / 碰撞 / 寻路起点不同"]
-  P4 --> P5["客户端状态持续分叉"]
-```
+<div class="question-box">
+先别看日志，只凭这条规则，你会判断它打哪座塔？
+</div>
+
+---
+layout: statement
+---
+
+<h1>先猜一下</h1>
+
+<div class="statement-subline">
+它会打左边，还是右边？
+</div>
+
+---
+layout: default
+class: target-branch-slide
+---
+
+<h1>结果分叉：同一条规则，选出了不同目标</h1>
+
+<div class="two-col-grid">
+<div>
+
+<h3>A 客户端</h3>
+
+- 位置略偏向左塔
+- 最近目标：左塔
+- `target = tower_left`
+
+</div>
+<div>
+
+<h3>B 客户端</h3>
+
+- 位置略偏向右塔
+- 最近目标：右塔
+- `target = tower_right`
+
+</div>
+</div>
+
+<div class="callout warning">
+分叉不是从大画面开始，而是从一个逻辑结果字段开始。
+</div>
 
 ---
 layout: default
@@ -532,10 +616,10 @@ layout: default
 layout: section
 ---
 
-<h1>那代价呢？</h1>
+<h1>那让服务端算，不就解决了吗？</h1>
 
 <div class="statement-subline">
-当最终裁决交给服务端，服务端就不再只是输入转发节点。
+先别急着点头：最终裁决交给服务端，服务端就不再只是输入转发节点。
 </div>
 
 ---
@@ -619,6 +703,16 @@ layout: default
 </div>
 
 ---
+layout: statement
+---
+
+<h1>收到权威状态后，要不要立刻把角色拉过去？</h1>
+
+<div class="statement-subline">
+直觉上只有“立刻改”和“慢慢过渡”，工程上要先分层。
+</div>
+
+---
 layout: default
 ---
 
@@ -673,6 +767,16 @@ layout: default
 </div>
 
 ---
+layout: statement
+---
+
+<h1>所有字段，都能用同一套纠偏吗？</h1>
+
+<div class="statement-subline">
+位置、血量、目标字段，代价不一样。
+</div>
+
+---
 layout: default
 ---
 
@@ -686,6 +790,16 @@ layout: default
 
 <div class="callout warning">
 逻辑层服从权威，渲染层决定怎么平滑。
+</div>
+
+---
+layout: statement
+---
+
+<h1>“分布式权威”，是很多服务端吗？</h1>
+
+<div class="statement-subline">
+这个词最容易让人先想错方向。
 </div>
 
 ---
@@ -754,6 +868,16 @@ flowchart LR
 - 对象权威不是永远固定在一个客户端
 - 根据距离、交互、掉线、负载等规则，持有者可以发生转移
 - 复杂度因此被放进了权威归属和迁移规则里
+
+---
+layout: statement
+---
+
+<h1>各端自己算最近持有者，行不行？</h1>
+
+<div class="statement-subline">
+如果本地状态已经有偏差，最近的人可能不是同一个。
+</div>
 
 ---
 layout: default
@@ -847,6 +971,16 @@ layout: default
 
 <div class="callout danger">
 它不是假设客户端永远可信，而是让异常行为有日志、能回放、可追责。
+</div>
+
+---
+layout: statement
+---
+
+<h1>看到状态异常，可以直接判作弊吗？</h1>
+
+<div class="statement-subline">
+先别急着处罚，先问它能不能被规则推导。
 </div>
 
 ---
